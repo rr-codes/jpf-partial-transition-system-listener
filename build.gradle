@@ -1,19 +1,106 @@
-plugins {
-    id 'java'
-}
+apply plugin: "java"
 
-group 'org.eecs4315'
-version '1.0-SNAPSHOT'
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
 
 repositories {
     mavenCentral()
 }
 
+// find home directory
+ext.userHome = System.getProperty("user.home")
+
+// find JPF's site.properties
+Properties siteProperties = new Properties()
+try {
+    FileInputStream file = new FileInputStream("${userHome}/.jpf")
+    siteProperties.load(file)
+    file.close()
+} catch (FileNotFoundException ignored) {
+    throw new GradleException("Please install jpf-core first and add the property 'jpf-core' to ${userHome}/.jpf pointing to the jpf-core installation")
+}
+
+// find jpf-core
+ext.jpfCoreExists = false
+ext.jpfCore = siteProperties.getProperty("jpf-core")
+if (jpfCore != null) {
+    jpfCore = jpfCore.replace('${user.home}', userHome)
+    jpfCoreExists = new File(jpfCore).exists()
+}
+if (!jpfCoreExists) {
+    throw new GradleException("${userHome}/.jpf/site.properties points to the jpf-core installation at ${jpfCore} but that directory does not exist")
+}
+
 dependencies {
+    implementation files("${jpfCore}/build/jpf.jar")
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:1.7.0'
 }
 
-test {
-    useJUnitPlatform()
+apply from: "gradle/source-sets.gradle"
+
+task compile {
+    group = "jpf-partial-transition-system-listener build"
+    description = "Compiles all jpf-partial-transition-system-listener sources."
+
+    dependsOn compileTestJava
+    dependsOn compileExamplesJava
 }
+
+task createJpfLabelJar(type: Jar) {
+    archiveName = "jpf-partial-transition-system-listener.jar"
+    destinationDir = file("${buildDir}")
+
+    group = "jpf-partial-transition-system-listener jars"
+    description = "Creates the ${archiveName} file."
+
+    dependsOn compile
+
+    from sourceSets.main.java.outputDir
+}
+
+task buildJars {
+    group = "jpf-partial-transition-system-listener build"
+    description = "Generates all jpf-partial-transition-system-listener jar files."
+
+    dependsOn createJpfLabelJar
+}
+
+task api(type: Javadoc) {
+    group = "documentation"
+    description = "Generates the jpf-partial-transition-system-listener API."
+
+    source = sourceSets.main.allJava
+    classpath = configurations.testCompileClasspath
+}
+
+test {
+    description = "Runs tests"
+
+    dependsOn buildJars
+
+    forkEvery = 1
+    enableAssertions = true
+    maxHeapSize = "1024m"
+
+    include "**/*Test.class"
+
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+
+    afterSuite { testDescriptor, result ->
+        if (!testDescriptor.parent) {
+            println "Test Execution: ${result.resultType}"
+
+            def summaryFields = ["${result.testCount} tests",
+                                 "${result.successfulTestCount} passed",
+                                 "${result.failedTestCount} failed",
+                                 "${result.skippedTestCount} skipped"]
+
+            println "Summary: " + summaryFields.join(", ")
+        }
+    }
+}
+
+defaultTasks "buildJars"
