@@ -33,8 +33,8 @@ if (!jpfCoreExists) {
 
 dependencies {
     implementation files("${jpfCore}/build/jpf.jar")
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:1.7.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.1'
 }
 
 apply from: "gradle/source-sets.gradle"
@@ -44,7 +44,6 @@ task compile {
     description = "Compiles all jpf-partial-transition-system-listener sources."
 
     dependsOn compileTestJava
-    dependsOn compileExamplesJava
 }
 
 task createJpfLabelJar(type: Jar) {
@@ -75,32 +74,7 @@ task api(type: Javadoc) {
 }
 
 test {
-    description = "Runs tests"
-
-    dependsOn buildJars
-
-    forkEvery = 1
-    enableAssertions = true
-    maxHeapSize = "1024m"
-
-    include "**/*Test.class"
-
-    testLogging {
-        events "passed", "skipped", "failed"
-    }
-
-    afterSuite { testDescriptor, result ->
-        if (!testDescriptor.parent) {
-            println "Test Execution: ${result.resultType}"
-
-            def summaryFields = ["${result.testCount} tests",
-                                 "${result.successfulTestCount} passed",
-                                 "${result.failedTestCount} failed",
-                                 "${result.skippedTestCount} skipped"]
-
-            println "Summary: " + summaryFields.join(", ")
-        }
-    }
+    useJUnitPlatform()
 }
 
 defaultTasks "buildJars"

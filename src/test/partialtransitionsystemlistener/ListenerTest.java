@@ -20,9 +20,9 @@ import java.io.FileNotFoundException;
 import java.util.Random;
 import java.util.Scanner;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import gov.nasa.jpf.JPF;
 import gov.nasa.jpf.util.test.TestJPF;
@@ -104,7 +104,7 @@ public class ListenerTest extends TestJPF {
     /**
      * Defines the paths.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUpBeforeClass() {
         path = JPF.createConfig(new String[] {}).getString("jpf-label") + "/src/tests/resources/";
     }
@@ -112,7 +112,7 @@ public class ListenerTest extends TestJPF {
     /**
      * Removes the label file created in the test cases.
      */
-    @AfterClass
+    @AfterAll
     public static void tearDownAfterClass() {
         File labelFile = new File(labelFileName);
         labelFile.delete();
