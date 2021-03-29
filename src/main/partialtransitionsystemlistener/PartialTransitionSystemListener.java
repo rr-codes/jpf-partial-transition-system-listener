@@ -42,13 +42,10 @@ public class PartialTransitionSystemListener extends SearchListenerAdapter {
         this.source = this.target;
         this.target = search.getStateId();
 
-        this.writer.printf("%d -> %d%n", source, target);
-
         this.sourceStates.add(this.source);
         this.targetStates.add(this.target);
 
         this.writer.printf("%d -> %d%n", source, target);
-
         this.writer.printf("%d [fillcolor=green]%n", source);
     }
 
