@@ -1,33 +1,40 @@
 package partialtransitionsystemlistener;
 
-import gov.nasa.jpf.search.*;
-
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.HashSet;
+import java.util.Set;
 
-@SuppressWarnings("unused")
+import gov.nasa.jpf.search.Search;
+import gov.nasa.jpf.search.SearchListenerAdapter;
+
 public class StateSpacePrinter extends SearchListenerAdapter {
-    private int source;
-    private int target;
+    private final Set<Integer> sourceStates;
+    private final Set<Integer> targetStates;
+
     private PrintWriter writer;
 
-    public StateSpacePrinter() {
-        this.source = -1;
-        this.target = -1;
-    }
+    private int source;
+    private int target;
 
-    @Override
     public void searchStarted(Search search) {
         String name = search.getVM().getSUTName() + ".dot";
         try {
             this.writer = new PrintWriter(name);
             this.writer.println("digraph statespace {");
             this.writer.println("node [style=filled]");
-            this.writer.println("0 [fillcolor=green]");
         } catch (FileNotFoundException e) {
-            System.err.println("Listener could not write to file " + name);
+            System.out.println("Listener could not write to file " + name);
             search.terminate();
         }
+    }
+
+    public StateSpacePrinter() {
+        this.sourceStates = new HashSet<>();
+        this.targetStates = new HashSet<>();
+
+        this.source = -1;
+        this.target = -1;
     }
 
     @Override
@@ -35,17 +42,23 @@ public class StateSpacePrinter extends SearchListenerAdapter {
         this.source = this.target;
         this.target = search.getStateId();
 
-        if (this.source != -1) {
-            System.out.printf("%d -> %d%n", source, target);
-        }
+        this.writer.printf("%d -> %d%n", source, target);
 
-        if (search.isEndState()) {
-            this.writer.printf("%d [fillcolor=red]%n", target);
-        }
+        this.sourceStates.add(this.source);
+        this.targetStates.add(this.target);
+
+        this.writer.printf("%d -> %d%n", source, target);
+
+        this.writer.printf("%d [fillcolor=green]%n", source);
     }
 
-    @Override
     public void searchFinished(Search search) {
+        this.targetStates.removeAll(this.sourceStates);
+
+        for (int i : this.targetStates) {
+            this.writer.printf("%d [fillcolor=red]%n", i);
+        }
+
         this.writer.println("}");
         this.writer.close();
     }

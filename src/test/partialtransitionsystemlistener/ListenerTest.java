@@ -69,7 +69,7 @@ public class ListenerTest extends TestJPF {
      * JPF's application properties for testing a single label-maker.
      */
     private static String[] singleLabelMakerProperties = { "+cg.enumerate_random=true",
-            "+listener=label.StateLabelText;label.StateLabelDot", "", "" };
+            "+listener=partialtransitionsystemlistener.StateSpacePrinter", "", "" };
 
     /**
      * JPF's application properties used in multipleTest and fieldAndVarTest.
