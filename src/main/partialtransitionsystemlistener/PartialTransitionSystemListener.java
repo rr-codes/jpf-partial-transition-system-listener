@@ -8,7 +8,7 @@ import java.util.Set;
 import gov.nasa.jpf.search.Search;
 import gov.nasa.jpf.search.SearchListenerAdapter;
 
-public class StateSpacePrinter extends SearchListenerAdapter {
+public class PartialTransitionSystemListener extends SearchListenerAdapter {
     private final Set<Integer> sourceStates;
     private final Set<Integer> targetStates;
 
@@ -29,7 +29,7 @@ public class StateSpacePrinter extends SearchListenerAdapter {
         }
     }
 
-    public StateSpacePrinter() {
+    public PartialTransitionSystemListener() {
         this.sourceStates = new HashSet<>();
         this.targetStates = new HashSet<>();
 
