@@ -14,8 +14,7 @@ public class TRAListener implements PartialStateSpacePrinter {
         Set<Integer> unexploredStates = new HashSet<>();
 
         for (Map.Entry<Integer, Set<Integer>> entry : transitions.entrySet()) {
-            Integer source = entry.getKey();
-
+            int source = entry.getKey();
             Set<Integer> targets = entry.getValue();
 
             for (int target : targets) {
@@ -28,8 +27,8 @@ public class TRAListener implements PartialStateSpacePrinter {
         }
 
         StringJoiner sj = new StringJoiner(" ");
-        for (Integer state : unexploredStates) {
-            sj.add(state.toString());
+        for (int state : unexploredStates) {
+            sj.add("" + state);
         }
 
         writer.printf(sj.toString());

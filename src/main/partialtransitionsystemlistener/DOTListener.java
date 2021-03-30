@@ -13,7 +13,7 @@ public class DOTListener implements PartialStateSpacePrinter {
 
     @Override
     public void printResult(Map<Integer, Set<Integer>> transitions, PrintWriter writer) {
-        final Set<Integer> exclusivelyTargets = new HashSet<>();
+        final Set<Integer> unexploredStates = new HashSet<>();
         final Set<Integer> allNodes = new HashSet<>();
 
         for (Map.Entry<Integer, Set<Integer>> entry : transitions.entrySet()) {
@@ -25,19 +25,20 @@ public class DOTListener implements PartialStateSpacePrinter {
 
             for (int target : targets) {
                 if (!transitions.containsKey(target)) {
-                    exclusivelyTargets.add(target);
+                    unexploredStates.add(target);
                 }
 
                 if (!allNodes.contains(target)) {
                     writer.printf("%d [fillcolor=green]%n", target);
                 }
+
                 writer.printf("%d -> %d%n", source, target);
 
                 allNodes.add(target);
             }
         }
 
-        for (int i : exclusivelyTargets) {
+        for (int i : unexploredStates) {
             writer.printf("%d [fillcolor=red]%n", i);
         }
 
