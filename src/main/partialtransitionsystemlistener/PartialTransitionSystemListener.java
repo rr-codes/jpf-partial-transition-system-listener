@@ -10,8 +10,8 @@ import gov.nasa.jpf.search.Search;
 import gov.nasa.jpf.search.SearchListenerAdapter;
 
 public class PartialTransitionSystemListener extends SearchListenerAdapter {
-    protected final Map<Integer, Set<Integer>> transitions;
-    protected PrintWriter writer;
+    private final Map<Integer, Set<Integer>> transitions;
+    private PrintWriter writer;
 
     private int source;
     private int target;
