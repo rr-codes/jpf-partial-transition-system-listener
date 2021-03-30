@@ -2,39 +2,41 @@ package partialtransitionsystemlistener;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
+import gov.nasa.jpf.Config;
+import gov.nasa.jpf.JPF;
 import gov.nasa.jpf.search.Search;
 import gov.nasa.jpf.search.SearchListenerAdapter;
 
 public class PartialTransitionSystemListener extends SearchListenerAdapter {
-    private final Set<Integer> sourceStates;
-    private final Set<Integer> targetStates;
-
-    private PrintWriter writer;
+    protected final Map<Integer, Set<Integer>> transitions;
+    protected PrintWriter writer;
 
     private int source;
     private int target;
 
+    private final PartialStateSpacePrinter stateSpacePrinter;
+
+    public PartialTransitionSystemListener(Config config, JPF jpf) {
+        this.transitions = new HashMap<>();
+
+        this.source = -1;
+        this.target = -1;
+
+        boolean useDOTFormat = config.getBoolean("jpf.partialtransitionsystemlistener.usedot", true);
+        this.stateSpacePrinter = useDOTFormat ? new DOTListener() : new TRAListener();
+    }
+
+
     public void searchStarted(Search search) {
-        String name = search.getVM().getSUTName() + ".dot";
+        String name = stateSpacePrinter.getFileName(search.getVM().getSUTName());
         try {
             this.writer = new PrintWriter(name);
-            this.writer.println("digraph statespace {");
-            this.writer.println("node [style=filled]");
         } catch (FileNotFoundException e) {
             System.out.println("Listener could not write to file " + name);
             search.terminate();
         }
-    }
-
-    public PartialTransitionSystemListener() {
-        this.sourceStates = new HashSet<>();
-        this.targetStates = new HashSet<>();
-
-        this.source = -1;
-        this.target = -1;
     }
 
     @Override
@@ -42,21 +44,11 @@ public class PartialTransitionSystemListener extends SearchListenerAdapter {
         this.source = this.target;
         this.target = search.getStateId();
 
-        this.sourceStates.add(this.source);
-        this.targetStates.add(this.target);
-
-        this.writer.printf("%d -> %d%n", source, target);
-        this.writer.printf("%d [fillcolor=green]%n", source);
+        this.transitions.computeIfAbsent(this.source, k -> new HashSet<>()).add(this.target);
     }
 
     public void searchFinished(Search search) {
-        this.targetStates.removeAll(this.sourceStates);
-
-        for (int i : this.targetStates) {
-            this.writer.printf("%d [fillcolor=red]%n", i);
-        }
-
-        this.writer.println("}");
+        this.stateSpacePrinter.printResult(transitions, writer);
         this.writer.close();
     }
 
