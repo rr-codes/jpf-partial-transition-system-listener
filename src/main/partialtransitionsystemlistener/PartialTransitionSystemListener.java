@@ -8,7 +8,6 @@ import gov.nasa.jpf.Config;
 import gov.nasa.jpf.JPF;
 import gov.nasa.jpf.listener.BudgetChecker;
 import gov.nasa.jpf.search.Search;
-import gov.nasa.jpf.search.SearchListenerAdapter;
 
 public class PartialTransitionSystemListener extends BudgetChecker {
     private final Map<Integer, Set<Integer>> transitions;
@@ -26,11 +25,11 @@ public class PartialTransitionSystemListener extends BudgetChecker {
         this.source = -1;
         this.target = -1;
 
-        boolean useDOTFormat = false; //config.getBoolean("jpf.partialtransitionsystemlistener.usedot", true);
+        boolean useDOTFormat = config.getBoolean("jpf.partialtransitionsystemlistener.usedot", true);
         this.stateSpacePrinter = useDOTFormat ? new DOTListener() : new TRAListener();
     }
 
-
+    @Override
     public void searchStarted(Search search) {
         String name = stateSpacePrinter.getFileName(search.getVM().getSUTName());
         try {
@@ -49,6 +48,7 @@ public class PartialTransitionSystemListener extends BudgetChecker {
         this.transitions.computeIfAbsent(this.source, k -> new HashSet<>()).add(this.target);
     }
 
+    @Override
     public void searchFinished(Search search) {
         this.stateSpacePrinter.printResult(transitions, writer);
         this.writer.close();

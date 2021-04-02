@@ -16,6 +16,9 @@ public class DOTListener implements PartialStateSpacePrinter {
         final Set<Integer> unexploredStates = new HashSet<>();
         final Set<Integer> allNodes = new HashSet<>();
 
+        writer.println("digraph statespace {");
+        writer.println("node [style=filled]");
+
         for (Map.Entry<Integer, Set<Integer>> entry : transitions.entrySet()) {
             int source = entry.getKey();
             Set<Integer> targets = entry.getValue();
