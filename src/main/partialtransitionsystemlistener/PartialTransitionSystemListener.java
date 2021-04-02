@@ -1,27 +1,31 @@
 package partialtransitionsystemlistener;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.util.*;
-
 import gov.nasa.jpf.Config;
 import gov.nasa.jpf.JPF;
 import gov.nasa.jpf.search.Search;
 import gov.nasa.jpf.search.SearchListenerAdapter;
 import gov.nasa.jpf.vm.VM;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 public class PartialTransitionSystemListener extends SearchListenerAdapter {
+	private final static String CONFIG_PREFIX = "jpf.partialtransitionsystemlistener";
+
 	private final Map<Integer, Set<Integer>> transitions;
+	private final PartialStateSpacePrinter stateSpacePrinter;
+	private final VM vm;
+	private final int maxNewStates;
+
 	private PrintWriter writer;
 
 	private int source;
 	private int target;
-
-	private VM vm;
-	private int maxNewStates;
 	private int newStates;
-
-	private final PartialStateSpacePrinter stateSpacePrinter;
 
 	public PartialTransitionSystemListener(Config config, JPF jpf) {
 		this.transitions = new HashMap<>();
@@ -31,9 +35,9 @@ public class PartialTransitionSystemListener extends SearchListenerAdapter {
 		this.source = -1;
 		this.target = -1;
 
-		boolean useDOTFormat = config.getBoolean("jpf.partialtransitionsystemlistener.usedot", true);
+		this.maxNewStates = config.getInt(CONFIG_PREFIX + ".max_new_states", 0);
+		boolean useDOTFormat = config.getBoolean(CONFIG_PREFIX + ".usedot", true);
 		this.stateSpacePrinter = useDOTFormat ? new DOTListener() : new TRAListener();
-		this.maxNewStates = config.getInt("jpf.partialtransitionsystemlistener.max_new_states", 0);
 
 		this.vm = jpf.getVM();
 	}
@@ -55,15 +59,18 @@ public class PartialTransitionSystemListener extends SearchListenerAdapter {
 		this.target = search.getStateId();
 
 		this.transitions.computeIfAbsent(this.source, k -> new HashSet<>()).add(this.target);
-		
-		if (search.isNewState()) {
-			if (!vm.isTraceReplay()) {
-				newStates++;
-			}
-			if (newStatesExceeded()) {
-				search.notifySearchConstraintHit("New States Exceeded at: " + this.maxNewStates);
-				search.terminate();
-			}
+
+		if (!search.isNewState()) {
+			return;
+		}
+
+		if (!this.vm.isTraceReplay()) {
+			this.newStates++;
+		}
+
+		if (this.newStatesExceeded()) {
+			search.notifySearchConstraintHit("New States Exceeded at: " + this.maxNewStates);
+			search.terminate();
 		}
 	}
 
@@ -82,13 +89,7 @@ public class PartialTransitionSystemListener extends SearchListenerAdapter {
 		this.target = search.getStateId();
 	}
 
-	public boolean newStatesExceeded() {
-		if (maxNewStates > 0) {
-			if (newStates > maxNewStates) {
-				return true;
-			}
-		}
-		return false;
+	private boolean newStatesExceeded() {
+		return this.maxNewStates > 0 && this.newStates > this.maxNewStates;
 	}
-
 }
