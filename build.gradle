@@ -13,7 +13,7 @@ ext.userHome = System.getProperty("user.home")
 // find JPF's site.properties
 Properties siteProperties = new Properties()
 try {
-    FileInputStream file = new FileInputStream("${userHome}/.jpf")
+    FileInputStream file = new FileInputStream("${userHome}/.jpf/site.properties")
     siteProperties.load(file)
     file.close()
 } catch (FileNotFoundException ignored) {

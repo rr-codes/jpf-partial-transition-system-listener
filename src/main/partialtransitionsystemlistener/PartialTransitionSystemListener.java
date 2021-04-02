@@ -6,10 +6,11 @@ import java.util.*;
 
 import gov.nasa.jpf.Config;
 import gov.nasa.jpf.JPF;
+import gov.nasa.jpf.listener.BudgetChecker;
 import gov.nasa.jpf.search.Search;
 import gov.nasa.jpf.search.SearchListenerAdapter;
 
-public class PartialTransitionSystemListener extends SearchListenerAdapter {
+public class PartialTransitionSystemListener extends BudgetChecker {
     private final Map<Integer, Set<Integer>> transitions;
     private PrintWriter writer;
 
@@ -19,12 +20,13 @@ public class PartialTransitionSystemListener extends SearchListenerAdapter {
     private final PartialStateSpacePrinter stateSpacePrinter;
 
     public PartialTransitionSystemListener(Config config, JPF jpf) {
+    	super(config, jpf);
         this.transitions = new HashMap<>();
 
         this.source = -1;
         this.target = -1;
 
-        boolean useDOTFormat = config.getBoolean("jpf.partialtransitionsystemlistener.usedot", true);
+        boolean useDOTFormat = false; //config.getBoolean("jpf.partialtransitionsystemlistener.usedot", true);
         this.stateSpacePrinter = useDOTFormat ? new DOTListener() : new TRAListener();
     }
 
@@ -61,4 +63,5 @@ public class PartialTransitionSystemListener extends SearchListenerAdapter {
     public void stateRestored(Search search) {
         this.target = search.getStateId();
     }
+    
 }
