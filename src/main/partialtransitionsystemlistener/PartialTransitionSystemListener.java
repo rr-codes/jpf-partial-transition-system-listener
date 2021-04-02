@@ -2,6 +2,8 @@ package partialtransitionsystemlistener;
 
 import gov.nasa.jpf.Config;
 import gov.nasa.jpf.JPF;
+import gov.nasa.jpf.annotation.JPFOption;
+import gov.nasa.jpf.annotation.JPFOptions;
 import gov.nasa.jpf.search.Search;
 import gov.nasa.jpf.search.SearchListenerAdapter;
 import gov.nasa.jpf.vm.VM;
@@ -13,8 +15,14 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+@JPFOptions({
+		@JPFOption(type = "Int", key = "partialtransitionsystemlistener.max_new_states", defaultValue = "0",
+				comment = "maximum states for listener"),
+		@JPFOption(type = "Boolean", key = "partialtransitionsystemlistener.use_dot", defaultValue = "true",
+				comment = "If `true`, the generated file uses DOT notation; else, uses TRA notation."),
+})
 public class PartialTransitionSystemListener extends SearchListenerAdapter {
-	private final static String CONFIG_PREFIX = "jpf.partialtransitionsystemlistener";
+	private final static String CONFIG_PREFIX = "partialtransitionsystemlistener";
 
 	private final Map<Integer, Set<Integer>> transitions;
 	private final PartialStateSpacePrinter stateSpacePrinter;
@@ -36,7 +44,7 @@ public class PartialTransitionSystemListener extends SearchListenerAdapter {
 		this.target = -1;
 
 		this.maxNewStates = config.getInt(CONFIG_PREFIX + ".max_new_states", 0);
-		boolean useDOTFormat = config.getBoolean(CONFIG_PREFIX + ".usedot", true);
+		boolean useDOTFormat = config.getBoolean(CONFIG_PREFIX + ".use_dot", true);
 		this.stateSpacePrinter = useDOTFormat ? new DOTListener() : new TRAListener();
 
 		this.vm = jpf.getVM();
