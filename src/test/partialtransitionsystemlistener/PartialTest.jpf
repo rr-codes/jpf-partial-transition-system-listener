@@ -9,4 +9,5 @@ site=C:/Users/mattw/.jpf/site.properties
 
 listener=partialtransitionsystemlistener.PartialTransitionSystemListener
 
-budget.max_state=3
+jpf.partialtransitionsystemlistener.usedot=false
+jpf.partialtransitionsystemlistener.max_new_states=2
