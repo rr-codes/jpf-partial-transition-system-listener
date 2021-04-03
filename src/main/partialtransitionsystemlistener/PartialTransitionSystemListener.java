@@ -15,6 +15,21 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Add a partial state space observer to JPF and build a graph of the state space
+ * that is explored by JPF. The graph can be generated in different formats.
+ * The current formats that are supported are DOT (visualized by a tool
+ * like GraphViz from ATT - http://www.graphviz.org/) and TRA.
+ * The graph is stored in a file called "jpf-state-space.<extension>" where
+ * extension is ".dot" or ".tra". By default it generates a DOT graph.
+ *
+ * @see gov.nasa.jpf.JPFListener
+ *
+ * @author Richard Robinson [Implementation, Documentation]
+ * @author Matt Walker [Implementation, Testing]
+ * @author Allen Kaplan [Testing, Documentation]
+ * @author Akin Adewale [Testing, Documentation]
+ */
 @JPFOptions({
 		@JPFOption(type = "Int", key = "partialtransitionsystemlistener.max_new_states", defaultValue = "0",
 				comment = "maximum states for listener"),
