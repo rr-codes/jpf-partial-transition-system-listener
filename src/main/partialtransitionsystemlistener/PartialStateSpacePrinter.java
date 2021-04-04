@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 public interface PartialStateSpacePrinter {
-    void printResult(Map<Integer, Set<Integer>> transitions, PrintWriter writer);
+    void printResult(Map<Integer, Set<Integer>> transitions, PrintWriter writer, Integer endState);
 
     String getFileName(String sutName);
 }

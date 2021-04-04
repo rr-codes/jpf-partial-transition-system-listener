@@ -12,7 +12,7 @@ public class DOTListener implements PartialStateSpacePrinter {
     }
 
     @Override
-    public void printResult(Map<Integer, Set<Integer>> transitions, PrintWriter writer) {
+    public void printResult(Map<Integer, Set<Integer>> transitions, PrintWriter writer, Integer endState) {
         final Set<Integer> unexploredStates = new HashSet<>();
         final Set<Integer> allNodes = new HashSet<>();
 

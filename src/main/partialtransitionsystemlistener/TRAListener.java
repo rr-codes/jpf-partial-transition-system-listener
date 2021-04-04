@@ -10,7 +10,7 @@ public class TRAListener implements PartialStateSpacePrinter {
     }
 
     @Override
-    public void printResult(Map<Integer, Set<Integer>> transitions, PrintWriter writer) {
+    public void printResult(Map<Integer, Set<Integer>> transitions, PrintWriter writer, Integer endState) {
         Set<Integer> unexploredStates = new HashSet<>();
 
         for (Map.Entry<Integer, Set<Integer>> entry : transitions.entrySet()) {
