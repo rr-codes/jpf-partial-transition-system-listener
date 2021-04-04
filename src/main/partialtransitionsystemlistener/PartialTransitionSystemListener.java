@@ -49,7 +49,7 @@ public class PartialTransitionSystemListener extends SearchListenerAdapter {
 	private int source;
 	private int target;
 	private int newStates;
-	private Integer endState;
+	private int endState;
 
 	public PartialTransitionSystemListener(Config config, JPF jpf) {
 		this.transitions = new HashMap<>();
@@ -58,7 +58,7 @@ public class PartialTransitionSystemListener extends SearchListenerAdapter {
 
 		this.source = -1;
 		this.target = -1;
-		this.endState = null;
+		this.endState = -1;
 
 		this.maxNewStates = config.getInt(CONFIG_PREFIX + ".max_new_states", 0);
 		boolean useDOTFormat = config.getBoolean(CONFIG_PREFIX + ".use_dot", true);

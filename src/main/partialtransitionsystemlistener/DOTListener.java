@@ -42,6 +42,10 @@ public class DOTListener implements PartialStateSpacePrinter {
         }
 
         for (int i : unexploredStates) {
+            if (endState == i) {
+                continue;
+            }
+
             writer.printf("%d [fillcolor=red]%n", i);
         }
 

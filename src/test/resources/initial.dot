@@ -8,5 +8,4 @@ node [style=filled]
 -1 [fillcolor=green]
 -1 -> 0
 1 [fillcolor=red]
-2 [fillcolor=red]
 }
