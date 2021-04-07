@@ -1,0 +1,12 @@
+digraph statespace {
+node [style=filled]
+0 [fillcolor=green]
+1 [fillcolor=green]
+0 -> 1
+-1 [fillcolor=green]
+-1 -> 0
+1 [fillcolor=green]
+2 [fillcolor=green]
+1 -> 2
+2 [fillcolor=red]
+}

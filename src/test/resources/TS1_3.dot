@@ -3,9 +3,13 @@ node [style=filled]
 0 [fillcolor=green]
 1 [fillcolor=green]
 0 -> 1
-2 [fillcolor=green]
-0 -> 2
 -1 [fillcolor=green]
 -1 -> 0
-1 [fillcolor=red]
+1 [fillcolor=green]
+2 [fillcolor=green]
+1 -> 2
+2 [fillcolor=green]
+3 [fillcolor=green]
+2 -> 3
+3 [fillcolor=red]
 }

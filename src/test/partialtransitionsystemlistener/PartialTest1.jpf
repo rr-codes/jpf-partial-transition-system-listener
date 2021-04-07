@@ -1,13 +1,11 @@
-target=test.partialtransitionsystemlistener.PartialTest
+target=partialtransitionsystemlistener.PartialTest
 
-classpath=C:/Users/mattw/OneDrive - York University/Documents/GitHub/jpf-partial-transition-system-listener/bin
-native_classpath=C:/Users/mattw/OneDrive - York University/Documents/GitHub/jpf-partial-transition-system-listener/bin
+classpath=C:/Users/mattw/IdeaProjects/jpf-partial-transition-system-listener/build/main
+native_classpath=C:/Users/mattw/IdeaProjects/jpf-partial-transition-system-listener/build/test
 
 cg.enumerate_random=true
 
-site=C:/Users/mattw/.jpf/site.properties
-
-listener=main.partialtransitionsystemlistener.PartialTransitionSystemListener
+listener=partialtransitionsystemlistener.PartialTransitionSystemListener
 
 partialtransitionsystemlistener.use_dot=true
 partialtransitionsystemlistener.max_new_states=1
