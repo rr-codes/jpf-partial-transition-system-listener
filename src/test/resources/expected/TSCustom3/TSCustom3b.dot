@@ -1,0 +1,74 @@
+digraph statespace {
+node [style=filled]
+0 [fillcolor=green]
+1 [fillcolor=green]
+0 -> 1
+-1 [fillcolor=green]
+-1 -> 0
+1 [fillcolor=green]
+2 [fillcolor=green]
+1 -> 2
+2 [fillcolor=green]
+3 [fillcolor=green]
+2 -> 3
+3 [fillcolor=green]
+4 [fillcolor=green]
+3 -> 4
+4 [fillcolor=green]
+5 [fillcolor=green]
+4 -> 5
+5 [fillcolor=green]
+6 [fillcolor=green]
+5 -> 6
+14 [fillcolor=green]
+5 -> 14
+6 [fillcolor=green]
+7 [fillcolor=green]
+6 -> 7
+13 [fillcolor=green]
+6 -> 13
+7 [fillcolor=green]
+8 [fillcolor=green]
+7 -> 8
+12 [fillcolor=green]
+7 -> 12
+8 [fillcolor=green]
+9 [fillcolor=green]
+8 -> 9
+11 [fillcolor=green]
+8 -> 11
+9 [fillcolor=green]
+10 [fillcolor=green]
+9 -> 10
+11 [fillcolor=green]
+11 -> 10
+12 [fillcolor=green]
+12 -> 9
+12 -> 11
+13 [fillcolor=green]
+13 -> 8
+13 -> 12
+14 [fillcolor=green]
+20 [fillcolor=green]
+14 -> 20
+15 [fillcolor=green]
+14 -> 15
+15 [fillcolor=green]
+16 [fillcolor=green]
+15 -> 16
+19 [fillcolor=green]
+15 -> 19
+16 [fillcolor=green]
+17 [fillcolor=green]
+16 -> 17
+18 [fillcolor=green]
+16 -> 18
+17 [fillcolor=green]
+17 -> 10
+18 [fillcolor=green]
+18 -> 10
+19 [fillcolor=green]
+19 -> 17
+19 -> 18
+20 [fillcolor=red]
+}

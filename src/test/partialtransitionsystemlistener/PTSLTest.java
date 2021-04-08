@@ -63,66 +63,158 @@ public class PTSLTest extends TestJPF {
      */
     @AfterEach
     private void saveDotFile() {
-//        File source = new File(dottyFileName);
-//        File dest = new File(path + "tmp/" + currentTest + ".dot");
-//        try {
-//            Files.copy(source.toPath(), dest.toPath());
-//        } catch (IOException e) {
-//            System.err.println("Error saving dot file: " + currentTest);
-//        }
+        File source = new File(dottyFileName);
+        File dest = new File(path + "tmp/" + currentTest + ".dot");
+        try {
+            Files.copy(source.toPath(), dest.toPath());
+        } catch (IOException e) {
+            System.err.println("Error saving dot file: " + currentTest);
+        }
     }
 
     /*
-    ====================================== BEGIN TEST SECTION ======================================
+    ====================================== TSCustom1 Tests ======================================
      */
 
     @Test
-    public void TSCustom1() {
-        currentTest = "TSCustom1";
+    public void TSCustom1a() {
+        currentTest = "TSCustom1a";
         properties[3] = "+partialtransitionsystemlistener.max_new_states=" + 1;
         if (verifyNoPropertyViolation(properties)) {
             TSCustom(1, 1);
         } else {
-            assertFilesEqual(dottyFileName, path + "expected/" + currentTest + ".dot");
+            assertFilesEqual(dottyFileName, path + "expected/" + "TSCustom1/" + currentTest + ".dot");
         }
     }
 
     @Test
-    public void TSCustom2() {
-        currentTest = "TSCustom2";
+    public void TSCustom1b() {
+        currentTest = "TSCustom1b";
         properties[3] = "+partialtransitionsystemlistener.max_new_states=" + 2;
         if (verifyNoPropertyViolation(properties)) {
             TSCustom(1, 1);
         } else {
-            assertFilesEqual(dottyFileName, path + "expected/" + currentTest + ".dot");
+            assertFilesEqual(dottyFileName, path + "expected/" + "TSCustom1/" + currentTest + ".dot");
         }
     }
 
     @Test
-    public void TSCustom3() {
-        currentTest = "TSCustom3";
+    public void TSCustom1c() {
+        currentTest = "TSCustom1c";
         properties[3] = "+partialtransitionsystemlistener.max_new_states=" + 3;
         if (verifyNoPropertyViolation(properties)) {
             TSCustom(1, 1);
         } else {
-            assertFilesEqual(dottyFileName, path + "expected/" + currentTest + ".dot");
+            assertFilesEqual(dottyFileName, path + "expected/" + "TSCustom1/" + currentTest + ".dot");
         }
     }
 
     @Test
-    public void TSCustom4() {
-        currentTest = "TSCustom4";
+    public void TSCustom1d() {
+        currentTest = "TSCustom1d";
         properties[3] = "+partialtransitionsystemlistener.max_new_states=" + 4;
         if (verifyNoPropertyViolation(properties)) {
             TSCustom(1, 1);
         } else {
-            assertFilesEqual(dottyFileName, path + "expected/" + currentTest + ".dot");
+            assertFilesEqual(dottyFileName, path + "expected/" + "TSCustom1/" + currentTest + ".dot");
         }
     }
 
     /*
-    ====================================== END TEST SECTION ======================================
+    ====================================== TSCustom2 Tests ======================================
      */
+
+    @Test
+    public void TSCustom2a() {
+        currentTest = "TSCustom2a";
+        properties[3] = "+partialtransitionsystemlistener.max_new_states=" + 1;
+        if (verifyNoPropertyViolation(properties)) {
+            TSCustom(1, 3);
+        } else {
+            assertFilesEqual(dottyFileName, path + "expected/" + "TSCustom2/" + currentTest + ".dot");
+        }
+    }
+
+    @Test
+    public void TSCustom2b() {
+        currentTest = "TSCustom2b";
+        properties[3] = "+partialtransitionsystemlistener.max_new_states=" + 5;
+        if (verifyNoPropertyViolation(properties)) {
+            TSCustom(1, 3);
+        } else {
+            assertFilesEqual(dottyFileName, path + "expected/" + "TSCustom2/" + currentTest + ".dot");
+        }
+    }
+
+    @Test
+    public void TSCustom2c() {
+        currentTest = "TSCustom2c";
+        properties[3] = "+partialtransitionsystemlistener.max_new_states=" + 10;
+        if (verifyNoPropertyViolation(properties)) {
+            TSCustom(1, 3);
+        } else {
+            assertFilesEqual(dottyFileName, path + "expected/" + "TSCustom2/" + currentTest + ".dot");
+        }
+    }
+
+    @Test
+    public void TSCustom2d() {
+        currentTest = "TSCustom2d";
+        properties[3] = "+partialtransitionsystemlistener.max_new_states=" + 20;
+        if (verifyNoPropertyViolation(properties)) {
+            TSCustom(1, 3);
+        } else {
+            assertFilesEqual(dottyFileName, path + "expected/" + "TSCustom2/" + currentTest + ".dot");
+        }
+    }
+
+    /*
+    ====================================== TSCustom3 Tests ======================================
+     */
+
+    @Test
+    public void TSCustom3a() {
+        currentTest = "TSCustom3a";
+        properties[3] = "+partialtransitionsystemlistener.max_new_states=" + 10;
+        if (verifyNoPropertyViolation(properties)) {
+            TSCustom(2, 4);
+        } else {
+            assertFilesEqual(dottyFileName, path + "expected/" + "TSCustom3/" + currentTest + ".dot");
+        }
+    }
+
+    @Test
+    public void TSCustom3b() {
+        currentTest = "TSCustom3b";
+        properties[3] = "+partialtransitionsystemlistener.max_new_states=" + 20;
+        if (verifyNoPropertyViolation(properties)) {
+            TSCustom(2, 4);
+        } else {
+            assertFilesEqual(dottyFileName, path + "expected/" + "TSCustom3/" + currentTest + ".dot");
+        }
+    }
+
+    @Test
+    public void TSCustom3c() {
+        currentTest = "TSCustom3c";
+        properties[3] = "+partialtransitionsystemlistener.max_new_states=" + 30;
+        if (verifyNoPropertyViolation(properties)) {
+            TSCustom(2, 4);
+        } else {
+            assertFilesEqual(dottyFileName, path + "expected/" + "TSCustom3/" + currentTest + ".dot");
+        }
+    }
+
+    @Test
+    public void TSCustom3d() {
+        currentTest = "TSCustom3d";
+        properties[3] = "+partialtransitionsystemlistener.max_new_states=" + 40;
+        if (verifyNoPropertyViolation(properties)) {
+            TSCustom(2, 4);
+        } else {
+            assertFilesEqual(dottyFileName, path + "expected/" + "TSCustom3/" + currentTest + ".dot");
+        }
+    }
 
     public void TSCustom(Integer width, Integer depth) {
         Random r = new Random();
