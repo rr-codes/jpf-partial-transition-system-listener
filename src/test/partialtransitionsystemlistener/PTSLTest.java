@@ -51,7 +51,7 @@ public class PTSLTest extends TestJPF {
 		File dottyFile = new File(dottyFileName);
 		if (!dottyFile.delete()) System.err.println("File: " + dottyFile.getName() + " was not deleted");
         File tmp = new File(path + "tmp/");
-		if (tmp.isDirectory()) { //just to ensure we are deleting the right thing here
+		if (tmp.isDirectory()) { //Comment this out if you want to see the results of saveDotFile()
 		    for (File f : tmp.listFiles()) {
 		        if (!f.delete()) System.err.println("File: " + f.getName() + " was not deleted");
             }
@@ -61,7 +61,7 @@ public class PTSLTest extends TestJPF {
     /**
      * Used for saving dot files after each test case for testing purposes
      *
-     * Commend out to disable, the @Disabled tag doesn't work with JPF
+     * Comment out the line specified in afterAll() if you want to actually see the results
      */
     @AfterEach
     private void saveDotFile() {
