@@ -6,10 +6,9 @@ import org.junit.jupiter.api.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+
 
 
 /*
@@ -50,10 +49,13 @@ public class PTSLTest extends TestJPF {
     @AfterAll
     public static void afterAll() {
 		File dottyFile = new File(dottyFileName);
-		boolean wasDeleted = dottyFile.delete();
-		if (!wasDeleted) {
-			System.err.println("File not deleted");
-		}
+		if (!dottyFile.delete()) System.err.println("File: " + dottyFile.getName() + " was not deleted");
+        File tmp = new File(path + "tmp/");
+		if (tmp.isDirectory()) { //just to ensure we are deleting the right thing here
+		    for (File f : tmp.listFiles()) {
+		        if (!f.delete()) System.err.println("File: " + f.getName() + " was not deleted");
+            }
+        }
     }
 
     /**
