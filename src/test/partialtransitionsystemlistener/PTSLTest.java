@@ -5,7 +5,8 @@ import org.junit.jupiter.api.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.nio.file.*;
+import java.util.Comparator;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -42,20 +43,23 @@ public class PTSLTest extends TestJPF {
     };
 
     @BeforeAll
-    public static void setUpBeforeClass() {
+    public static void setUpBeforeClass() throws IOException {
         path = System.getProperty("user.dir") + "/src/test/resources/";
+        Files.createDirectories(Paths.get(path + "/tmp"));
     }
 
     @AfterAll
-    public static void afterAll() {
+    public static void afterAll() throws IOException {
 		File dottyFile = new File(dottyFileName);
-		if (!dottyFile.delete()) System.err.println("File: " + dottyFile.getName() + " was not deleted");
-        File tmp = new File(path + "tmp/");
-		if (tmp.isDirectory()) { //Comment this out if you want to see the results of saveDotFile()
-		    for (File f : tmp.listFiles()) {
-		        if (!f.delete()) System.err.println("File: " + f.getName() + " was not deleted");
-            }
+		if (!dottyFile.delete()) {
+		    System.err.println("File: " + dottyFile.getName() + " was not deleted");
         }
+
+        //noinspection ResultOfMethodCallIgnored
+        Files.walk(Paths.get(path + "tmp/"))
+                .sorted(Comparator.reverseOrder())
+                .map(Path::toFile)
+                .forEach(File::delete);
     }
 
     /**
@@ -71,6 +75,8 @@ public class PTSLTest extends TestJPF {
             Files.copy(source.toPath(), dest.toPath());
         } catch (IOException e) {
             System.err.println("Error saving dot file: " + currentTest);
+            e.printStackTrace();
+            fail();
         }
     }
 
