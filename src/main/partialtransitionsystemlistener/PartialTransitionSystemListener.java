@@ -25,7 +25,7 @@ import java.util.Set;
  * <p></p>
  *
  * <b>Options</b> (all keys should be prefixed with {@code partialtransitionsystemlistener.}):
- * <table>
+ * <table summary="options">
  * <tr>
  * <td> <b>Key</b> </td> <td> <b>Type</b> </td> <td> <b>Default</b> </td>
  * <td> <b>Description</b> </td>

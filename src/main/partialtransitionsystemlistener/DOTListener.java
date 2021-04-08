@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class DOTListener implements PartialStateSpacePrinter {
+class DOTListener implements PartialStateSpacePrinter {
     @Override
     public String getFileName(String sutName) {
         return sutName + ".dot";

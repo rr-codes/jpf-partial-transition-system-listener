@@ -31,6 +31,14 @@ if (!jpfCoreExists) {
     throw new GradleException("${userHome}/.jpf/site.properties points to the jpf-core installation at ${jpfCore} but that directory does not exist")
 }
 
+javadoc {
+    configure( options ) {
+        tags(
+                'implNote:a:Implementation Note:'
+        )
+    }
+}
+
 dependencies {
     implementation files("${jpfCore}/build/jpf.jar")
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
@@ -44,33 +52,6 @@ task compile {
     description = "Compiles all jpf-partial-transition-system-listener sources."
 
     dependsOn compileTestJava
-}
-
-task createJpfLabelJar(type: Jar) {
-    archiveName = "jpf-partial-transition-system-listener.jar"
-    destinationDir = file("${buildDir}")
-
-    group = "jpf-partial-transition-system-listener jars"
-    description = "Creates the ${archiveName} file."
-
-    dependsOn compile
-
-    from sourceSets.main.java.outputDir
-}
-
-task buildJars {
-    group = "jpf-partial-transition-system-listener build"
-    description = "Generates all jpf-partial-transition-system-listener jar files."
-
-    dependsOn createJpfLabelJar
-}
-
-task api(type: Javadoc) {
-    group = "documentation"
-    description = "Generates the jpf-partial-transition-system-listener API."
-
-    source = sourceSets.main.allJava
-    classpath = configurations.testCompileClasspath
 }
 
 test {

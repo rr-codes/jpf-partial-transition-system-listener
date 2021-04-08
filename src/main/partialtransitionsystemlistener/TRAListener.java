@@ -3,7 +3,7 @@ package partialtransitionsystemlistener;
 import java.io.PrintWriter;
 import java.util.*;
 
-public class TRAListener implements PartialStateSpacePrinter {
+class TRAListener implements PartialStateSpacePrinter {
     @Override
     public String getFileName(String sutName) {
         return sutName + ".txt";
