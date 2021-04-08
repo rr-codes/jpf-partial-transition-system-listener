@@ -29,13 +29,11 @@ import java.util.stream.IntStream;
 
 public class PTSLTest extends TestJPF {
 
-    private final static int MIN = 1;
-    private final static int MAX = 6;
-    private final static int[] max_new_states = IntStream.range(MIN, MAX).toArray();
-
     private static final String dottyFileName = PTSLTest.class.getName() + ".dot";
 
     private static String path;
+
+    private static String currentTest = "";
 
     private static String[] properties = new String[]{
             "+cg.enumerate_random=true",
@@ -51,26 +49,80 @@ public class PTSLTest extends TestJPF {
 
     @AfterAll
     public static void afterAll() {
-//		File dottyFile = new File(dottyFileName);
-//		boolean wasDeleted = dottyFile.delete();
-//		if (!wasDeleted) {
-//			System.err.println("File not deleted");
-//		}
+		File dottyFile = new File(dottyFileName);
+		boolean wasDeleted = dottyFile.delete();
+		if (!wasDeleted) {
+			System.err.println("File not deleted");
+		}
+    }
+
+    /**
+     * Used for saving dot files after each test case for testing purposes
+     *
+     * Commend out to disable, the @Disabled tag doesn't work with JPF
+     */
+    @AfterEach
+    private void saveDotFile() {
+//        File source = new File(dottyFileName);
+//        File dest = new File(path + "tmp/" + currentTest + ".dot");
+//        try {
+//            Files.copy(source.toPath(), dest.toPath());
+//        } catch (IOException e) {
+//            System.err.println("Error saving dot file: " + currentTest);
+//        }
+    }
+
+    /*
+    ====================================== BEGIN TEST SECTION ======================================
+     */
+
+    @Test
+    public void TSCustom1() {
+        currentTest = "TSCustom1";
+        properties[3] = "+partialtransitionsystemlistener.max_new_states=" + 1;
+        if (verifyNoPropertyViolation(properties)) {
+            TSCustom(1, 1);
+        } else {
+            assertFilesEqual(dottyFileName, path + "expected/" + currentTest + ".dot");
+        }
     }
 
     @Test
-    public void TSCustom() {
-        Random r = new Random();
-        Integer max_new_states = 10;
-        Integer width = 1;//r.nextInt(9) + 1;
-        Integer depth = 1;//r.nextInt(9) + 1;
-        properties[3] = "+partialtransitionsystemlistener.max_new_states=" + max_new_states;
+    public void TSCustom2() {
+        currentTest = "TSCustom2";
+        properties[3] = "+partialtransitionsystemlistener.max_new_states=" + 2;
         if (verifyNoPropertyViolation(properties)) {
-            TSCustom(width, depth);
+            TSCustom(1, 1);
         } else {
-            assertFilesEqual(dottyFileName, path + "TS1_5.dot"); //TODO need a new file assertion method for random TS
+            assertFilesEqual(dottyFileName, path + "expected/" + currentTest + ".dot");
         }
     }
+
+    @Test
+    public void TSCustom3() {
+        currentTest = "TSCustom3";
+        properties[3] = "+partialtransitionsystemlistener.max_new_states=" + 3;
+        if (verifyNoPropertyViolation(properties)) {
+            TSCustom(1, 1);
+        } else {
+            assertFilesEqual(dottyFileName, path + "expected/" + currentTest + ".dot");
+        }
+    }
+
+    @Test
+    public void TSCustom4() {
+        currentTest = "TSCustom4";
+        properties[3] = "+partialtransitionsystemlistener.max_new_states=" + 4;
+        if (verifyNoPropertyViolation(properties)) {
+            TSCustom(1, 1);
+        } else {
+            assertFilesEqual(dottyFileName, path + "expected/" + currentTest + ".dot");
+        }
+    }
+
+    /*
+    ====================================== END TEST SECTION ======================================
+     */
 
     public void TSCustom(Integer width, Integer depth) {
         Random r = new Random();
