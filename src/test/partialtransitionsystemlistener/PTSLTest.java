@@ -10,8 +10,6 @@ import java.util.Comparator;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-
-
 /*
     Possible way to determine which states should be left out:
     Based on the created Digraph and the max_new_states property...
@@ -25,7 +23,6 @@ import java.util.stream.Collectors;
     Might be better *not* to test dot output and instead check if last line of text output
     satisfies the above formula
  */
-
 
 public class PTSLTest extends TestJPF {
 
@@ -68,6 +65,7 @@ public class PTSLTest extends TestJPF {
      * Comment out the line specified in afterAll() if you want to actually see the results
      */
     @AfterEach
+    @Disabled
     private void saveDotFile() {
         File source = new File(dottyFileName);
         File dest = new File(path + "tmp/" + currentTest + ".dot");

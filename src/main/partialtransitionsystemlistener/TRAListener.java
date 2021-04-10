@@ -6,7 +6,7 @@ import java.util.*;
 class TRAListener implements PartialStateSpacePrinter {
     @Override
     public String getFileName(String sutName) {
-        return sutName + ".txt";
+        return sutName + ".tra";
     }
 
     @Override
